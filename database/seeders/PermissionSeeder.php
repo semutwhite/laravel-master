@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class PermissionSeeder extends Seeder
 {
@@ -22,7 +24,12 @@ class PermissionSeeder extends Seeder
         $role->givePermissionTo('view dashboard');
 
         // Memberikan peran ke pengguna
-        $user = \App\Models\User::find(1);
+        $user = User::create([
+            'name' => "Admin",
+            'username' => "admin",
+            'email' => "admin@local",
+            'password' => Hash::make('password')
+        ]);
         $user->assignRole('admin');
     }
 }
