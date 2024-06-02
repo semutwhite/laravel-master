@@ -32,14 +32,5 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ziggy-js": "^1.8.2"
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true,
-    "useTabs": false,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "printWidth": 80,
-    "arrowParens": "avoid"
   }
 }
