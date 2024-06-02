@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class PermissionSeeder extends Seeder
@@ -16,19 +16,32 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-        // Membuat izin
-        Permission::create(['name' => 'view dashboard']);
+        // List Default Permission
+        $permissions = Permission::$defaultPermissions;
 
-        // Membuat peran dan menetapkan izin
+        foreach ($permissions as $permissionName => $permissionDescription) {
+            // Check whether permissions already exist, if not, create new ones
+            if (! Permission::where('name', $permissionName)->exists()) {
+                Permission::create([
+                    'name' => $permissionName,
+                    'description' => $permissionDescription,
+                ]);
+                $this->command->info("  Permission '{$permissionName}' has been created");
+            } else {
+                $this->command->info("  Permission '$permissionName' already exists");
+            }
+        }
+
+        // Create roles and assign permissions
         $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo('view dashboard');
+        $role->givePermissionTo(Permission::all());
 
-        // Memberikan peran ke pengguna
+        // Assign roles to users
         $user = User::create([
-            'name' => "Admin",
-            'username' => "admin",
-            'email' => "admin@local",
-            'password' => Hash::make('password')
+            'name' => 'Admin',
+            'username' => 'admin',
+            'email' => 'admin@local',
+            'password' => Hash::make('password'),
         ]);
         $user->assignRole('admin');
     }

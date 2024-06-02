@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'permission:view home'])->group(function () {
     Route::get('/home', function () {
-        return "Home";
+        return 'Home';
     });
 });
 

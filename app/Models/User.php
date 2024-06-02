@@ -18,10 +18,10 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
     use HasRoles;
     use HasUuids;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     protected $primaryKey = 'uuid';
 
